@@ -8,12 +8,10 @@ import spotipy.util as util
 import telebot
 # needed for argv
 import sys
-# filw with Telegram bot token
-from libs import private as TOKEN 
-# file with client credentials created in spotify/dashboard/applications
-from libs import credentials as cred 
+# filw with Telegram bot token and client credentials
+from libs import private as pr
 
-bot = telebot.TeleBot(TOKEN.token)
+bot = telebot.TeleBot(pr.token)
 
 @bot.message_handler(commands = ['start'])
 def welcomeMessage(message):
@@ -23,7 +21,7 @@ def welcomeMessage(message):
 def logIn(message):
 	username = 'bot.py'
 	scope = 'playlist-modify-private'
-	tk = util.prompt_for_user_token(username, scope, cred.client_id, cred.client_secret, cred.redirect_uri)
+	tk = util.prompt_for_user_token(username, scope, pr.client_id, pr.client_secret, pr.redirect_uri)
 
 	if tk:
 		sp = spotipy.Spotify(auth = tk)
