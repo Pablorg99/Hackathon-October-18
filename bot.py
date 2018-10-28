@@ -8,7 +8,7 @@ import spotipy.util as util
 import telebot
 # needed for argv
 import sys
-# filw with Telegram bot token and client credentials
+# file with Telegram bot token and client credentials
 from libs import private as pr
 
 bot = telebot.TeleBot(pr.token)
