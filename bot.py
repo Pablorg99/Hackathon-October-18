@@ -1,25 +1,38 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# python library for Spotify Web Api
 import spotipy
 import spotipy.util as util
+# python library for Telegram Bot Api
 import telebot
-from flask import request
-from libs import private as TOKEN
-from libs import credentials as cred
+# needed for argv
+import sys
+# filw with Telegram bot token
+from libs import private as TOKEN 
+# file with client credentials created in spotify/dashboard/applications
+from libs import credentials as cred 
 
 bot = telebot.TeleBot(TOKEN.token)
 
-@bot.message_handler(commands=['log_in'])
+@bot.message_handler(commands = ['start'])
+def welcomeMessage(message):
+	bot.reply_to(message ,'Bienvenido a SBotify, usa /log_in para loguearte en spotify')
+
+@bot.message_handler(commands = ['log_in'])
 def logIn(message):
-	cid = message.chat.id
+	username = 'bot.py'
 	scope = 'playlist-modify-private'
-	bot.send_message(cid ,'Bienvenido a SBotify')
-	bot.send_message(cid, 'Dime tu nombre de usuario de Spotify')
-	@bot.message_handler(func = lambda message: True)
-	def getUsername(message):
-		username = str(message)
-		tk = util.prompt_for_user_token(username, scope, cred.client_id, cred.client_secret, cred.redirect_uri)
+	tk = util.prompt_for_user_token(username, scope, cred.client_id, cred.client_secret, cred.redirect_uri)
+
+	if tk:
 		sp = spotipy.Spotify(auth = tk)
+		#Test with an example from Spotipy doc
+		results = sp.current_user_saved_tracks()
+		for item in results['items']:
+			track = item['track']
+			print track['name'] + ' - ' + track['artists'][0]['name']		
+	else:
+   		print "Can't get token for", username
 
 bot.polling()
