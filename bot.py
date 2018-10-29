@@ -34,3 +34,41 @@ def logIn(message):
    		print "Can't get token for", username
 
 bot.polling()
+
+# @app.route('/auth')
+# def spotify_authentication():
+#     """
+#     Inicia la fase 1 de autenticación OAuth2 con spotify
+#     Manda el navegador del usuario a autenticarse contra Spotify
+#     """
+#     scope = "playlist-modify-private"
+#     oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=scope)
+# 
+#     return redirect(oauth.get_authorize_url())
+# 
+# @app.route('/spotify')
+# def spotify_authorization():
+#     """
+#     Si la autenticación tiene éxito vuelve a esta URL:
+#         http://localhost/spotify
+#     """
+#     scope = "playlist-modify-private"
+#     oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=scope)
+# 
+#     code = oauth.parse_response_code(url=request.url)
+#     if code:
+#         # token es un diccionario
+#         # token['access_token'] contiene el token de acceso a la API de spotify
+#         token = oauth.get_access_token(code)
+# 
+#         # Aqui deberíamos enviar el token al bot a través del navegador del usuario para que lo asocie
+#         # El bot pilla el token como parámetro del comando start y lo asocia al usuario de Telegram
+#         # return redirect(https://tg.me/mibot?start=access_token)
+# 
+#         # El access token se usa para acceder a la API de Spotify
+#         sp = Spotify(auth=token['access_token'])
+#         user = sp.current_user()
+# 
+#         return json.dumps(user, ensure_ascii=False), 200
+# 
+#     return "Error de autenticación", 400
